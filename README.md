@@ -1,0 +1,1 @@
+# magecurious_extension
