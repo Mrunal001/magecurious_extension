@@ -1,0 +1,40 @@
+<?php
+/**
+ * Magecurious_AbandonedCarteMail
+ * @package   Magecurious\AbandonedCarteMail
+ * @author    Magecurious <support@magecurious.com>
+ */
+?>
+<?php
+$items = $block->getItems();
+$priceHelper = $this->helper('\Magento\Framework\Pricing\Helper\Data');
+?>
+<table class="email-items">
+    <!-- Display Item Information like name, sku, qty, price in E-mail -->
+    <thead>
+        <tr>
+            <th class="item-info" style="text-align: left;">
+                <?= /* @escapeNotVerified */  __('Items'); ?>
+            </th>
+            <th class="item-sku" style="text-align: left;">
+                <?= /* @escapeNotVerified */  __('Sku'); ?>
+            </th>
+            <th class="item-qty" style="text-align: left;">
+                <?= /* @escapeNotVerified */  __('Qty'); ?>
+            </th>
+            <th class="item-price" style="text-align: left;">
+                <?= /* @escapeNotVerified */  __('Price'); ?>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($items as $item): ?>
+        <tr>
+            <td><?= $item->getName() ?></td>
+            <td><?= $item->getSku() ?></td>
+            <td><?= $item->getQty() ?></td>
+            <td><?= $priceHelper->currency($item->getPrice(), true, false) ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

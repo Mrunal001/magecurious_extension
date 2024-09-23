@@ -1,0 +1,20 @@
+{
+    "magecurious_abandoned_cart": {
+        "column": {
+            "id": true,
+            "quote_id": true,
+            "store_id": true,
+            "customer_id": true,
+            "email": true,
+            "quote_updated_at": true,
+            "abandoned_cart_number": true,
+            "items_count": true,
+            "items_ids": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

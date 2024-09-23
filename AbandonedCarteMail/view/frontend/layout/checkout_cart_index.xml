@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_AbandonedCarteMail
+ * @package   Magecurious\AbandonedCarteMail
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="content">
+             <block class="Magento\Framework\View\Element\Template" name="custom_popup_custom" template="Magecurious_AbandonedCarteMail::popup.phtml" cacheable="false" />
+        </referenceBlock>
+    </body>
+</page>

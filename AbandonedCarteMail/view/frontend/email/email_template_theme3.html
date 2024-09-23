@@ -1,0 +1,40 @@
+<!--
+* Magecurious_AbandonedCarteMail
+ * @package   Magecurious\AbandonedCarteMail
+ * @author    Magecurious <support@magecurious.com>
+ @-->
+<!--@subject {{trans "Abandoned Cart"}} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr>
+        <td><h3>Hello {{var customer_name}},</h3></td>
+    </tr>
+    <tr>
+        <td>
+            <h1>{{trans 'Something Waiting For You:'}}</h1>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="font-size: 14px;">Don't worry, we saved it for you. Plus, as a new customer, you get at <b>20% off!</b></p>
+            <p style="font-size: 14px;">Hurry, this offer expires in 48 hours.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            {{layout handle="email_product_list" items=$items area="frontend"}}
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

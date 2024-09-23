@@ -1,0 +1,98 @@
+<?php $blockObj= $block->getLayout()->createBlock('Magecurious\AbandonedCarteMail\Block\Form');
+
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $om->get('Magento\Customer\Model\Session');
+$customerData = $customerSession->getCustomer()->getData();
+$blockObj->getCustomerId();
+?>
+
+<div id="form">
+    <form method="post" name="email_form" id="email_form" Action= "#" data-mage-init='{"validation":{}}'>
+    <label for="email">Enter Email</label>
+    <input type="email" id="email" name="email" data-validate="{required:true}">
+    </form>
+</div>
+
+<style>
+    .modal-popup._inner-scroll .modal-inner-wrap {
+    width: 40%;
+    }
+    .modal-custom .action-close:before, .modal-popup .action-close:before, .modal-slide .action-close:before{
+        display: none;
+    }
+</style>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var customerid = '<?php echo $blockObj->getCustomerId(); ?>';
+            if(!customerid){
+                var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                clickableOverlay: false,
+                title: 'subscribe for more offers',
+                buttons: [{
+                    text: $.mage.__('submit'),
+                    class: 'submitdata',
+                    click: function (data) {
+                        var dataForm = $('#email_form');
+                        var ignore = null;
+                        
+                        dataForm.mage('validation', {
+                            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+                        }).find('input:text').attr('autocomplete', 'off');
+
+                        
+
+                        if (dataForm.validation('isValid') === true) { 
+                            $.ajax({
+                                url:'<?php echo $blockObj->getFormAction(); ?>' ,
+                                data:  $("#email_form").serialize(),
+                                type: 'POST',
+                                dataType: 'json',
+                                showLoader: true ,
+                            })
+                            this.closeModal();                
+                            return true;
+                        }
+                    
+                        return false;
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#form'));
+            $( document ).ready(function() {
+                setTimeout(function(){
+                if (!localStorage.getItem('popupShown'))
+                {
+                    $("#form").modal("openModal");
+                    localStorage.setItem('popupShown', true);
+                }
+                }, 2000);
+            });
+
+                
+                
+            }
+            
+        }
+    );
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "#email_form": {
+            "validation": {}
+        }
+    }
+</script>

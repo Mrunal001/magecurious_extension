@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_AbandonedCarteMail
+ * @package   Magecurious\AbandonedCarteMail
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="abandonedcartemail_general_email_template" label="Abandoned Cart Email" file="email_template.html" type="html" module="Magecurious_AbandonedCarteMail" area="frontend"/>
+    <template id="abandonedcartemail_general_email_template2" label="Abandoned Cart Email2" file="email_template_theme2.html" type="html" module="Magecurious_AbandonedCarteMail" area="frontend"/>
+    <template id="abandonedcartemail_general_email_template3" label="Abandoned Cart Email3" file="email_template_theme3.html" type="html" module="Magecurious_AbandonedCarteMail" area="frontend"/>
+</config>

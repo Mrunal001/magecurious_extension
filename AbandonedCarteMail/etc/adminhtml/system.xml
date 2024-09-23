@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_AbandonedCarteMail
+ * @package   Magecurious\AbandonedCarteMail
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magecurious" class="magecurious" translate="label" sortOrder="10">
+            <label></label>
+        </tab>
+        <section id="abandonedcartemail" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Abandoned Cart E-mail</label>
+            <tab>magecurious</tab>
+            <resource>Magecurious_AbandonedCarteMail::abandonedcartemail_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="email_template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <comment>This template will be sent as email notification.</comment>
+                <depends>
+                    <field id="abandonedcartemail/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Send Mail Frequency</label>
+                <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                <backend_model>Magecurious\AbandonedCarteMail\Model\Config\CronConfig</backend_model>
+                <depends>
+                    <field id="abandonedcartemail/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="time" translate="label comment" sortOrder="1" type="time" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Send Mail Start Time</label>
+                <depends>
+                    <field id="abandonedcartemail/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="frequency_status" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Status Reset Frequency</label>
+                <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                <backend_model>Magecurious\AbandonedCarteMail\Model\Config\StatusReset</backend_model>
+                <depends>
+                    <field id="abandonedcartemail/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="time_status" translate="label comment" sortOrder="1" type="time" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Status Reset Start Time</label>
+                <depends>
+                    <field id="abandonedcartemail/general/enable">1</field>
+                </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
