@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Emailattachment
+ * @package   Magecurious\Emailattachment
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magecurious" class="magecurious" translate="label" sortOrder="10">
+            <label></label>
+        </tab>
+        <section id="emailattachment" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Email Attachment</label>
+            <tab>magecurious</tab>
+            <resource>Magecurious_Emailattachment::emailattachment_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Email Attachment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="cc" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CC to</label>
+                    <comment>comma separated</comment>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="bcc" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>BCC to</label>
+                    <comment>comma separated</comment>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="enable_attach_pdf" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Attach PDF</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                </depends>    
+                </field>
+                <field id="attach_pdf_for" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attach PDF File for</label>
+                    <source_model>Magecurious\Emailattachment\Model\Config\Options</source_model>
+                    <comment>PDF files will be generated and attached in emails</comment>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                    <field id="emailattachment/general/enable_attach_pdf">1</field>
+                </depends>
+                </field>
+                <field id="email_copy" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatically Select Email Copy of Sales Emails</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Selected Yes you no need to select manually Email copy of Invoice/Shipment/CreditMemo from Admin</comment>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                    <field id="emailattachment/general/enable_attach_pdf">1</field>
+                </depends>
+                </field>
+                <field id="enable_attach_tc" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Attach Terms and Conditions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                </depends>    
+                </field>
+                <field id="attach_tc_for" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attach Terms and Conditions to</label>
+                    <source_model>Magecurious\Emailattachment\Model\Config\OptionsTerms</source_model>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                    <field id="emailattachment/general/enable_attach_tc">1</field>
+                </depends>
+                </field>
+                <field id="file_upload" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="1"
+                showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>File Upload Button</label>
+                    <backend_model>Magecurious\Emailattachment\Model\Config\Backend\CustomFileType</backend_model>
+                    <upload_dir config="system">MyUploadDir</upload_dir>
+                    <comment>allowed file types .pdf, .doc, .txt, .jpg, .jpeg, .png</comment>
+                <depends>
+                    <field id="emailattachment/general/enable">1</field>
+                </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

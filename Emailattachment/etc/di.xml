@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Emailattachment
+ * @package   Magecurious\Emailattachment
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\Mail\Template\TransportBuilder">
+        <plugin name="magecurious-attachment-transport-builder" type="Magecurious\Emailattachment\Plugin\TransportBuilder"/>
+    </type>
+
+    <type name="Magento\Framework\Mail\MimeMessage">
+        <plugin name="magecurious-attachment-mimemessage" type="Magecurious\Emailattachment\Plugin\MimeMessage"/>
+    </type>
+
+</config>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Emailattachment
+ * @package   Magecurious\Emailattachment
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magecurious_Emailattachment::emailattachment_config" title="Email Attachment" sortOrder="51">
+                    <resource id="Magecurious_Emailattachment::post" title="Posts" sortOrder="10"/>
+                    <resource id="Magecurious_Emailattachment::emailattachment_configuration" title="Configuration" sortOrder="99" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
