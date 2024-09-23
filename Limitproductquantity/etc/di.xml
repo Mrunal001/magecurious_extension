@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Limitproductquantity
+ * @package   Magecurious\Limitproductquantity
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
+        <arguments>
+            <argument name="linkTypes" xsi:type="array">
+                <item name="customlink" xsi:type="const">Magecurious\Limitproductquantity\Model\Product\Link::LINK_TYPE_CUSTOMLINK</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="customlink" xsi:type="object">Magecurious\Limitproductquantity\Model\ProductLink\CollectionProvider\CustomLinkProducts</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magecurious\Limitproductquantity\Model\ProductLink\CollectionProvider\CustomLinkProducts">
+        <plugin name="change_custom_link_before" type="Magecurious\Limitproductquantity\Plugin\UpdateToCustomLinkModel"/>
+    </type>
+</config>

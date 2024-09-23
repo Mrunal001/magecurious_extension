@@ -1,0 +1,8 @@
+<?php
+/* @var $block \Magento\Framework\View\Element\Template */
+$mainProductName = $block->getData('main_product_name');
+$relatedProductUrl = $block->getData('related_product_url');
+$relatedProductName = $block->getData('related_product_name');
+?>
+
+<p>You have to buy a <a href="<?php echo $relatedProductUrl ?>"><?php echo $relatedProductName ?></a> before purchasing <?php echo $mainProductName ?>.</p>

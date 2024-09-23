@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Limitproductquantity
+ * @package   Magecurious\Limitproductquantity
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="customlink" xsi:type="array">
+                    <item name="class" xsi:type="string">Magecurious\Limitproductquantity\Ui\DataProvider\Product\Form\Modifier\CustomLinkTab</item>
+                    <item name="sortOrder" xsi:type="number">7</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Limitproductquantity
+ * @package   Magecurious\Limitproductquantity
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magecurious" class="magecurious" translate="label" sortOrder="10">
+            <label></label>
+        </tab>
+        <section id="limitproductquantity" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Limit Product Quantity</label>
+            <tab>magecurious</tab>
+            <resource>Magecurious_Limitproductquantity::limitproductquantity_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Limit Product Quantity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="errmsgqty" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Error Message for Quantity</label>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="errmsgprd" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Error Message for Products</label>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="minlimitqty" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Minimum Quantity Limit Per Customer</label>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="maxlimitqty" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Quantity Limit Per Customer</label>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="startdate" translate="label" type="date" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Limit From</label>
+                    <frontend_model>Magecurious\Limitproductquantity\Block\Adminhtml\Date</frontend_model>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="enddate" translate="label" type="date" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Limit Until</label>
+                    <frontend_model>Magecurious\Limitproductquantity\Block\Adminhtml\Date</frontend_model>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="limitcust" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Limit Groups or Customers</label>
+                    <source_model>Magecurious\Limitproductquantity\Model\Config\Source\Customergroup</source_model>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                </depends>
+                </field>
+                <field id="custgrp" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Group</label>
+                    <source_model>Magecurious\Limitproductquantity\Model\Config\Options</source_model>
+                <depends>
+                    <field id="limitproductquantity/general/enable">1</field>
+                    <field id="limitproductquantity/general/limitcust">customergroups</field>
+                </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
