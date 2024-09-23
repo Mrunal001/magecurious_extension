@@ -1,0 +1,23 @@
+{
+    "name": "magecurious/magento-2-productadvancedsearch",
+    "description": "Magecurious ProductAdvancedSearch",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Magecurious",
+            "email": "support@magecurious.com",
+            "homepage": "https://magecurious.com/"
+        }
+    ],
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+             "Magecurious\\ProductAdvancedSearch\\": ""
+        }
+    }
+}

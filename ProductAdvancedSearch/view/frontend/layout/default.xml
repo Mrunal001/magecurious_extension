@@ -1,0 +1,16 @@
+<!--
+/**
+ * Magecurious_ProductAdvancedSearch
+ * @package   Magecurious\ProductAdvancedSearch
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd" >
+	<body>
+		<referenceContainer name="header-wrapper">
+			<referenceBlock name="top.search" remove="true"/>
+            <block class="Magecurious\ProductAdvancedSearch\Block\SearchAutocomplete" name="search.autocomplete" template="Magecurious_ProductAdvancedSearch::search/autocomplete.phtml" cachable="false" />
+        </referenceContainer>
+	</body>
+</page>

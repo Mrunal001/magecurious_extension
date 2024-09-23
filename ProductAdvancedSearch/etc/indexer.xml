@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_ProductAdvancedSearch
+ * @package   Magecurious\ProductAdvancedSearch
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation=
+"urn:magento:framework:Indexer/etc/indexer.xsd">
+<indexer id="magecurious_example" view_id="magecurious_example" class=
+"Magecurious\ProductAdvancedSearch\Model\Indexer\ExampleIndexer" shared_index="magecurious_example">
+<title translate="true">Magecurious: Xsearch - Popup Data</title>
+<description translate="true">Indexed data for popup</description>
+<dependencies>
+<indexer id="cataloginventory_stock"/>
+</dependencies>
+</indexer>
+</config>

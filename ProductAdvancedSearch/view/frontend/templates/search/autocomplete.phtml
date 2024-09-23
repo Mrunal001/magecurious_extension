@@ -1,0 +1,558 @@
+<?php
+/**
+ * Magecurious_ProductAdvancedSearch
+ * @package   Magecurious\ProductAdvancedSearch
+ * @author    magecurious<support@magecurious.com>
+*/
+
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper(\Magento\Search\Helper\Data::class);
+$helper_custom = $this->helper("Magecurious\ProductAdvancedSearch\Helper\Data");
+$customBlock = $block->getLayout()->createBlock('Magecurious\ProductAdvancedSearch\Block\SearchAutocomplete');
+?>
+
+<div class="block block-search">
+    <div class="block block-title"><strong><?= /* @escapeNotVerified */ __('Search') ?></strong></div>
+    <div class="block block-content">
+        <form class="form minisearch" id="search_mini_form" action="<?= /* @escapeNotVerified */ $helper->getResultUrl() ?>" method="get">
+            <div class="field search">
+                <label class="label" for="search" data-role="minisearch-label">
+                    <span><?= /* @escapeNotVerified */ __('Search') ?></span>
+                </label>
+                <div class="control">
+                    <input id="search"
+                           data-mage-init='{"quickSearch":{
+                                "formSelector":"#search_mini_form",
+                                "url":"<?= /* @escapeNotVerified */ $block->getUrl('search/ajax/suggest', ['_secure' => $block->getRequest()->isSecure()]) ?>",
+                                "destinationSelector":"#search_autocomplete"}
+                           }'
+                           type="text"
+                           name="<?= /* @escapeNotVerified */ $helper->getQueryParamName() ?>"
+                           value="<?= /* @escapeNotVerified */ $helper->getEscapedQueryText() ?>"
+                           placeholder="<?= /* @escapeNotVerified */ __('Search entire store here...') ?>"
+                           class="input-text"
+                           maxlength="<?= /* @escapeNotVerified */ $helper->getMaxQueryLength() ?>"
+                           role="combobox"
+                           aria-haspopup="false"
+                           aria-autocomplete="both"
+                           autocomplete="off"/>
+                    <div id="search_autocomplete" class="search-autocomplete"></div>
+                    <?= $block->getChildHtml() ?>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit"
+                        title="<?= $block->escapeHtml(__('Search')) ?>"
+                        class="action search">
+                    <span><?= /* @escapeNotVerified */ __('Search') ?></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<?php
+if ($helper_custom->isEnabled() == 1)
+{ ?>
+	<script type="text/javascript">
+	require(['jquery', 'domReady!'], function($){
+	var searchControlElement = $('#search_mini_form .field.search .control').first();
+	searchControlElement.append('<div id="searchAutocomplete" style="display:none"><ul></ul><div id="products"><div class="display-products" style="font-weight: bold;"></div></div><?php if ($helper_custom->isPopularEnabled() == 1) {?><div id="recentSearches"><div class="autocomplete-title-recent" style="font-weight: bold;"><?php echo $helper_custom->getPopularSearchTitle(); ?></div><ul></ul></div><?php }?><?php if ($helper_custom->isRecentEnabled() == 1) {?> <div id="popularSearches"><div class="autocomplete-title-popular" style="font-weight: bold;"><?php echo $helper_custom->getRecentSearchTitle(); ?></div><ul></ul></div><?php }?><?php $customersession = $customBlock->getCustomerSession(); ?><div id="browsingHistory"><div class="autocomplete-title-history" style="font-weight: bold;"><?php if ($customersession == 1) { ?><?php echo $helper_custom->getBrowsingHistoryTitle(); ?><?php } ?></div><ul></ul></div><div class="autocomplete-button" id="productView"><button type="submit" name="submit" class="view-button" id="product-show"><?= /* @escapeNotVerified */ __('View All Products') ?></button></div><?php if ($helper_custom->ShowCategories() == 1) {?><div id="searchCategories"><div class="autocomplete-title-categories" style="font-weight: bold;"><?php echo $helper_custom->ShowCategorieTitle(); ?></div><ul></ul></div><?php }?></div>');
+
+	searchControlElement.append('<div id="searchAutocompleteClick" style="display:none"><ul></ul><?php if ($helper_custom->isPopularEnabled() == 1) {?><div id="recentSearchesClick"><div class="autocomplete-title-recent-click" style="font-weight: bold;"><?php echo $helper_custom->getPopularSearchTitle(); ?></div><ul></ul></div><?php }?><?php if ($helper_custom->isRecentEnabled() == 1) {?> <div id="popularSearchesClick"><div class="autocomplete-title-popular-click" style="font-weight: bold;"><?php echo $helper_custom->getRecentSearchTitle(); ?></div><ul></ul></div><?php }?><?php $customersession = $customBlock->getCustomerSession(); ?><?php if ($helper_custom->getBrowsingHistory() == 1) {?><div id="browsingHistoryClick"><div class="autocomplete-title-history-click" style="font-weight: bold;"><?php if ($customersession == 1) { ?><?php echo $helper_custom->getBrowsingHistoryTitle(); ?><?php } ?></div><ul></ul></div><?php }?><?php $customersession = $customBlock->getCustomerSession(); ?><?php if ($helper_custom->ShowRecentView() == 1) {?><div id="recentViewedClick"><div class="autocomplete-title-recentviewed-click" style="font-weight: bold;"><?php if ($customersession == 1) { ?><?php echo $helper_custom->getRecentViewTitle(); ?><?php } ?></div><ul></ul></div><?php }?></div>');
+	
+	$('#search_autocomplete').remove();
+	$('#search').unbind();
+	$(window).click(function() {
+		$('#searchAutocomplete').hide();
+		$('#searchAutocompleteClick').hide();
+	});
+	$('.block.block-search').click(function(event){
+	    event.stopPropagation();
+	});
+
+	$('#search').bind('input', function(){
+		var searchInput = $(this);
+	  	var searchInputValue = searchInput.val().replace("/^[a-zA-Z0-9 _-]+$/i", "");
+		var mincharacter = <?php echo $helper_custom->getMinCharacter(); ?>; 
+		if(searchInputValue.length >= mincharacter){
+	  		url = "<?php echo $this->getAjaxUrl(); ?>";
+	  		$.ajax({
+	           	type: "POST",
+	           	url: url,
+	           	data: {query: searchInputValue},
+	           	success: function(data){
+					setTimeout(function(){
+					var searchResult = '';
+					var popularsearch = '';
+					var recentsearch = '';
+					var browsinghistory = '';
+					var category = '';
+
+					var size_product = Object.keys(data.productlist).length;
+
+					$(".display-products").text("Products ("+data.productcount+")");
+
+					for(let i=1; i<=size_product; i++)
+					{
+						searchResult += '<div class="container">';
+						searchResult += '<div class="prop">';
+						searchResult += '<div class="section-one">';
+						searchResult += '<li data-url="'+data.productlist[i]['url']+'">';
+	           			searchResult += '<div class="image"><img src="'+data.productlist[i]['small']+'"></div>';
+						searchResult += '<div class="section-two">';
+		           		searchResult += '<div class="title"><p>'+data.productlist[i]['name']+'</p></div>';
+						<?php if ($helper_custom->ShowReview() == 1) 
+						{ ?>
+		           		if(data.productlist[i]['rating']){
+		           			searchResult += '<div class="rating"><div class="rating-summary"><div class="rating-result" title="'+data.productlist[i]['rating']+'%"><span style="width:'+data.productlist[i]['rating']+'%"><span>'+data.productlist[i]['rating']+'%</span></span></div></div></div>';
+		           			}
+						<?php } ?>
+		           		searchResult += '<div class="price"><p><b>'+data.productlist[i]['price']+'</b><p></div>';
+						<?php if ($helper_custom->ShowSKU() == 1) 
+						{ ?>
+							searchResult += '<div class="sku"><p><b>SKU:</b> '+data.productlist[i]['sku']+'</p></div>';
+						<?php } ?>
+						searchResult += '</div>';
+		           		searchResult += '</div>';
+						searchResult += '</div>';
+						searchResult += '</li>';
+
+						searchResult += '<div class="section-second">';
+						<?php if ($helper_custom->ShowAddToCart() == 1) 
+						{ ?>
+						searchResult += '<div class="addtocart"><div class="addcart"><input type="button" name="submit" value="Add to Cart" id="add-to-cart-' + data.productlist[i]['sku'] + '" class="action tocart primary add-to-cart" data-productsku="' + data.productlist[i]['sku'] + '" data-typeid="' + data.productlist[i]['typeid'] + '"></div></div>';
+						<?php } ?>
+						searchResult += '<div class="custom link wishlist" data-bind="scope: \'wishlist\'"><div class="addwishlist"><a href="wishlist/index/index" id="custom-wishlist-' + data.productlist[i]['sku'] + '" class="wishlist-custom" data-productsku="' + data.productlist[i]['sku'] + '"><span class="wishlist-text">Add to Wishlist</span></a></div></div>';
+						searchResult += '<div class="custom link compare" data-bind="scope: \'compare\'"><div class="addcompare"><a href="catalog/product_compare/index/" id="custom-compare-' + data.productlist[i]['sku'] + '" class="compare-custom" data-productsku="' + data.productlist[i]['sku'] + '"><span class="compare-text">Add to Compare</span></a></div></div>';
+
+						searchResult += '</div>';
+						searchResult += '</div>';
+						
+						$('#searchAutocomplete ul').first().html(searchResult);
+					}
+
+					var size_popular = Object.keys(data.populersearch).length;
+
+					popularsearch += '<div class="firstterm">';
+					popularsearch += '<li data-url="'+data.firstterm[i]['url']+'">';
+					popularsearch += '<div class="firstquery"><p>'+data.firstterm[i]['query']+'</p></div>';
+					popularsearch += '</div>';
+					popularsearch += '</li>';
+
+					for(let i=1; i<=size_popular; i++)
+					{
+						recentsearch += '<div class="recentsearch">';
+						recentsearch += '<li data-url="'+data.populersearch[i]['url']+'">';
+						recentsearch += '<div class="recent"><p>'+data.populersearch[i]['top_recent_terms']+'</p></div>';
+						recentsearch += '</div>';
+						recentsearch += '</li>';
+						$('#recentSearches ul').first().html(recentsearch);
+
+						popularsearch += '<div class="popularsearch">';
+						popularsearch += '<li data-url="'+data.populersearch[i]['url']+'">';
+						popularsearch += '<div class="popular"><p>'+data.populersearch[i]['top_search_terms']+'</p></div>';
+						popularsearch += '</div>';
+						popularsearch += '</li>';
+						$('#popularSearches ul').first().html(popularsearch);
+					}
+
+					<?php $customersession = $customBlock->getCustomerSession(); ?>
+
+					<?php if ($customersession == 1) 
+					{ ?>
+						var size_browsing = Object.keys(data.browsingterm).length;
+						for(let i=1; i<=size_browsing; i++)
+						{
+							browsinghistory += '<div class="browsinghistory">';
+							browsinghistory += '<li data-url="'+data.browsingterm[i]['url']+'">';
+							browsinghistory += '<div class="browsing"><p>'+data.browsingterm[i]['BrowsingHistory']+'</p></div>';
+							browsinghistory += '</div>';
+							browsinghistory += '</li>';
+							$('#browsingHistory ul').first().html(browsinghistory);
+						}
+					<?php } ?>
+						
+					
+						var size_category = Object.keys(data.categorylist).length;
+						
+						if (size_category > 0)
+						{
+					
+						for(let i=1; i<=size_category; i++)
+						{
+							category += '<div class="category">';
+							category += '<li class="categoryurl" data-url="'+data.categorylist[i]['url']+'">';
+							category += '<div class="recent"><p>'+data.categorylist[i]['category_names']+'</p></div>';
+							category += '</div>';
+							category += '</li>';
+							$('#searchCategories ul').first().html(category);
+						}
+					}
+
+					$( "#searchAutocomplete ul li" ).on( "click", function() {
+				  		window.location = $(this).data('url');
+					});
+
+					$(".add-to-cart").click(function() {
+    					var sku = $(this).data("productsku");
+    					var quantity = 1;
+    					var typeid = $(this).data("typeid");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtocart');?>",
+        					data: {sku: sku, qty: quantity, typeid: typeid},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+            				if (response.success) {
+                				if (response.redirect_url && typeid === 'configurable') {
+                    				window.location.href = response.redirect_url;
+                				} else {
+                    
+                					}
+            				} else {
+                					console.error(response.error);
+            					}
+        					}
+    					});
+					});
+
+					$(".wishlist-custom").click(function() {
+						var productId = $(this).data("productsku");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtowishlist');?>",
+        					data: {productId: productId},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+							}
+    					});
+					});
+
+					$(".compare-custom").click(function() {
+						var productCompare = $(this).data("productsku");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtocompare');?>",
+        					data: {compareProduct: productCompare},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+							}
+    					});
+					});
+
+					if(size_product > 0){
+						$('#searchAutocomplete').show();
+						$('#searchAutocompleteClick').hide();
+						$('#recentSearches').show();
+						$('#popularSearches').show();
+						$('#browsingHistory').show();
+						$('#searchCategories').show();
+						$('#productView').show();
+						$('#product-show').show();
+					}else{
+						var searchTerm = $('#search').val();
+    					var noResultHtml = '<li><p><?= /* @escapeNotVerified */ __("We could not find anything for") ?> <strong>' + searchTerm + '</strong></p></li>';
+    					$('#searchAutocomplete ul').first().html(noResultHtml);
+						$('#searchAutocomplete').show();
+						$('#recentSearches').hide();
+						$('#popularSearches').hide();
+						$('#browsingHistory').hide();
+						$('#searchCategories').hide();
+						$('#productView').hide();
+						$('#product-show').hide();
+						$('#searchAutocomplete').css("width", "370px");
+					}
+					}, '<?php echo $helper_custom->getPopupDelay(); ?>' * 1000);
+	        },
+	            error: function (data) {
+	                console.log(data);
+	            }
+	  		});
+	  	}else{
+	  		$('#searchAutocomplete').hide();
+			$('#searchAutocompleteClick').hide();
+	  	}
+	});
+
+	$("#search").click(function() 
+	{
+		var popularsearch1 = '';
+		var recentsearch1 = '';
+		var recentviewed = '';
+		url = "<?php echo $this->getAjaxUrl(); ?>";
+	  	$.ajax({
+	           	type: "POST",
+	           	url: url,
+	           	data: {popularsearch: popularsearch1, recentsearch: recentsearch1, recentlyviewed: recentviewed},
+	           	success: function(data){
+	           		var popularsearch = '';
+					var recentsearch = '';
+					var recentlyviewed = '';
+					var browsinghistory = '';
+					
+	           		var size_popular_click = Object.keys(data.populersearch).length;
+					for(let i=1; i<=size_popular_click; i++)
+					{
+						popularsearch += '<div class="popularsearchclick">';
+						popularsearch += '<li data-url="'+data.populersearch[i]['url']+'">';
+						popularsearch += '<div class="popular1"><p>'+data.populersearch[i]['top_search_terms']+'</p></div>';
+						popularsearch += '</div>';
+						popularsearch += '</li>';
+						$('#popularSearchesClick ul').first().html(popularsearch);
+						
+						recentsearch += '<div class="recentsearchclick">';
+						recentsearch += '<li data-url="'+data.populersearch[i]['url']+'">';
+						recentsearch += '<div class="recentclick"><p>'+data.populersearch[i]['top_recent_terms']+'</p></div>';
+						recentsearch += '</div>';
+						recentsearch += '</li>';
+						$('#recentSearchesClick ul').first().html(recentsearch);
+					}
+
+					<?php $customersession = $customBlock->getCustomerSession(); ?>
+
+					<?php if ($customersession == 1) 
+					{ ?>
+						var size_browsing_click = Object.keys(data.browsingterm).length;
+						for(let i=1; i<=Math.min(size_browsing_click, 4); i++)
+						{
+							browsinghistory += '<div class="browsinghistoryclick">';
+							browsinghistory += '<li data-url="'+data.browsingterm[i]['url']+'">';
+							browsinghistory += '<div class="browsingclick"><p>'+data.browsingterm[i]['BrowsingHistory']+'</p></div>';
+							browsinghistory += '</div>';
+							browsinghistory += '</li>';
+							$('#browsingHistoryClick ul').first().html(browsinghistory);
+						}
+					
+
+					var size_recent_click = Object.keys(data.recentview).length;
+					for (let i=1; i<=size_recent_click; i++)
+					{
+						recentlyviewed += '<div class="recentview">';
+						recentlyviewed += '<div class="section-one-click">';
+						recentlyviewed += '<li data-url="'+data.recentview[i]['url']+'">';
+						recentlyviewed += '<div class="image"><img src="'+data.recentview[i]['small']+'"></div>';
+						recentlyviewed += '<div class="section-two-click">';
+						recentlyviewed += '<div class="recentviewname"><p>'+data.recentview[i]['namerecent']+'</p></div>';
+						recentlyviewed += '<div class="recentviewsku"><p>'+data.recentview[i]['sku']+'</p></div>';
+						recentlyviewed += '<div class="recentviewprice"><p>'+data.recentview[i]['price']+'</p></div>';
+						if(data.recentview[i]['rating']){
+							recentlyviewed += '<div class="rating"><div class="rating-summary"><div class="rating-result" title="'+data.recentview[i]['rating']+'%"><span style="width:'+data.recentview[i]['rating']+'%"><span>'+data.recentview[i]['rating']+'%</span></span></div></div></div>';
+						}
+						recentlyviewed += '</div>';
+						recentlyviewed += '</div>';
+						recentlyviewed += '</div>';
+						recentlyviewed += '</li>';
+
+						recentlyviewed += '<div class="addtocart"><div class="addcart"><input type="button" name="submit" value="Add to Cart" id="add-to-cart-' + data.recentview[i]['sku'] + '" class="action tocart primary add-to-cart-click" data-productsku="' + data.recentview[i]['sku'] + '" data-typeid="' + data.recentview[i]['typeid'] + '"></div></div>';
+						recentlyviewed += '<div class="custom link wishlist click" data-bind="scope: \'wishlist\'"><div class="addwishlistclick"><a href="wishlist/index/index" id="custom-wishlist-' + data.recentview[i]['sku'] + '" class="wishlist-custom-click" data-productsku="' + data.recentview[i]['sku'] + '"><span class="wishlist-text">Add to Wishlist</span></a></div></div>';recentlyviewed += '<div class="custom link compare click" data-bind="scope: \'compare\'"><div class="addcompareclick"><a href="catalog/product_compare/index/" id="custom-compare-' + data.recentview[i]['sku'] + '" class="compare-custom-click" data-productsku="' + data.recentview[i]['sku'] + '"><span class="compare-text">Add to Compare</span></a></div></div>';
+
+						$('#recentViewedClick ul').first().html(recentlyviewed);
+					}
+
+					<?php } ?>
+					
+					$( "#searchAutocompleteClick ul li" ).on( "click", function() {
+				  		window.location = $(this).data('url');
+					});
+
+					$(".add-to-cart-click").click(function() {
+    					var sku = $(this).data("productsku");
+    					var quantity = 1;
+    					var typeid = $(this).data("typeid");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtocart');?>",
+        					data: {sku: sku, qty: quantity, typeid: typeid},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+            				if (response.success) {
+                				if (response.redirect_url && typeid === 'configurable') {
+                    				window.location.href = response.redirect_url;
+                				} else {
+                    
+                					}
+            				} else {
+                					console.error(response.error);
+            					}
+        					}
+    					});
+					});
+
+					$(".wishlist-custom-click").click(function() {
+						var productId = $(this).data("productsku");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtowishlist');?>",
+        					data: {productId: productId},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+							}
+    					});
+					});
+
+					$(".compare-custom-click").click(function() {
+						var productCompare = $(this).data("productsku");
+    					$.ajax({
+        					url: "<?= $this->getUrl('searchautocomplete/ajax/addtocompare');?>",
+        					data: {compareProduct: productCompare},
+        					type: 'POST',
+        					dataType: 'json',
+        					success: function(response) {
+							}
+    					});
+					});
+
+					if(size_popular_click > 0){
+						$('#searchAutocompleteClick').show();
+						$('#recentSearchesClick').show();
+						$('#popularSearchesClick').show();
+						$('#recentViewedClick').show();
+						$('#browsingHistoryClick').show();
+					}else{
+						var searchTerm = $('#search').val();
+    					var noResultHtml = '<li><p><?= /* @escapeNotVerified */ __("We could not find anything for") ?> <strong>' + searchTerm + '</strong></p></li>';
+    					$('#searchAutocompleteClick ul').first().html(noResultHtml);
+						$('#searchAutocompleteClick').hide();
+						$('#recentSearchesClick').hide();
+						$('#popularSearchesClick').hide();
+						$('#recentViewedClick').hide();
+						$('#browsingHistoryClick').hide();
+						
+					}
+				},
+	            error: function (data) {
+	                console.log(data);
+	            }
+	  		});
+	  	
+	});
+
+});
+</script>
+
+<?php } ?>
+
+<style type="text/css">
+
+#searchAutocomplete {
+	display:flex;
+	margin-top: 20px;
+	position: absolute;
+	right: 1px;
+	top: 32px;
+	font-size: 16px;
+	width: 850px;
+	overflow: scroll;
+	overflow-x: hidden;
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		border: <?php echo $helper_custom->getBorderColor(); ?>;
+		background-color: <?php echo $helper_custom->getBackgroundColor(); ?>;
+	<?php endif; ?>
+}
+
+<?php $customersession = $customBlock->getCustomerSession(); ?>
+
+<?php if ($customersession == 0): ?>
+
+#searchAutocompleteClick {
+	margin-top: 20px;
+	position: absolute;
+	display: flex;
+	right: 1px;
+	top: 32px;
+	font-size: 16px;
+	width: 371px;
+	height: 270px;
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		border: <?php echo $helper_custom->getBorderColor(); ?>;
+		background-color: <?php echo $helper_custom->getBackgroundColor(); ?>;
+	<?php endif; ?>
+}
+
+#popularSearchesClick {
+    position: relative;
+    left: 50px;
+    top: 5px;
+}
+
+<?php else: ?>
+
+#searchAutocompleteClick {
+	margin-top: 20px;
+	position: absolute;
+	right: 1px;
+	top: 32px;
+	font-size: 16px;
+	width: 650px;
+	height: 900px;
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		border: <?php echo $helper_custom->getBorderColor(); ?>;
+		background-color: <?php echo $helper_custom->getBackgroundColor(); ?>;
+	<?php endif; ?>
+}
+
+#popularSearchesClick {
+    position: relative;
+    left: 10px;
+    top: 5px;
+}
+
+<?php endif; ?>
+
+
+<?php if ($helper_custom->isPopularEnabled() == 1): ?>
+
+#popularSearches {
+    position: absolute;
+    left: 583px;
+    top: 480px;
+}
+
+<?php else: ?>
+
+#popularSearches {
+    position: relative;
+    left: 42px;
+    top: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+<?php endif; ?>
+
+#searchAutocomplete .prop  :hover  {
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		background-color: <?php echo $helper_custom->getHoverColor(); ?>;
+	<?php endif; ?>
+}
+
+#searchAutocompleteClick .prop  :hover  {
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		background-color: <?php echo $helper_custom->getHoverColor(); ?>;
+	<?php endif; ?>
+}
+
+#searchAutocomplete .title{
+	<?php if ($helper_custom->isEnabledCustomLayout() == 1): ?>
+		color: <?php echo $helper_custom->getTextColor(); ?>;
+	<?php endif; ?>
+	cursor:pointer;
+}
+
+</style>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "wishlist": {
+                        "component": "Magento_Wishlist/js/view/wishlist"
+                    }
+                }
+            }
+        }
+    }
+</script>

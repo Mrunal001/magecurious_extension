@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_ProductAdvancedSearch
+ * @package   Magecurious\ProductAdvancedSearch
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Customer:etc/sections.xsd">
+    <action name="searchautocomplete/ajax/addtocart">
+        <section name="cart"/>
+    </action>
+</config>
