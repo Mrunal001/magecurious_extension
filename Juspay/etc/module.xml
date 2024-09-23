@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Juspay
+ * @package   Magecurious\Juspay
+ * @author    Magecurious <mailto:support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Magecurious_Juspay" setup_version="1.0.0" />
+    <sequence>
+        <module name="Magento_Sales"/>
+        <module name="Magento_Payment"/>
+        <module name="Magento_Checkout"/>
+    </sequence>
+</config>

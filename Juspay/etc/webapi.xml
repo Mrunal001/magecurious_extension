@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Juspay
+ * @package   Magecurious\Juspay
+ * @author    Magecurious <mailto:support@magecurious.com>
+ */
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route method="POST" url="/V1/session/juspay-session/">
+        <service class="Magecurious\Juspay\Api\SessionInterface" method="getPost"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/order/juspay-order/">
+        <service class="Magecurious\Juspay\Api\OrderInterface" method="getPost"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/refund/juspay-refund/">
+        <service class="Magecurious\Juspay\Api\RefundInterface" method="getPost"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

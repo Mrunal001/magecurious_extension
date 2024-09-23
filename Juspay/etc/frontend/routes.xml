@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Juspay
+ * @package   Magecurious\Juspay
+ * @author    Magecurious <mailto:support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="juspay" frontName="juspay">
+            <module name="Magecurious_Juspay" />
+        </route>
+    </router>
+</config>

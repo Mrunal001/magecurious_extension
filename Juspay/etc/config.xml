@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_Juspay
+ * @package   Magecurious\Juspay
+ * @author    Magecurious <mailto:support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <payment>
+            <testpayment>
+                <payment_action>authorize</payment_action>
+                <model>Magecurious\Juspay\Model\PaymentMethod</model>
+                <active>1</active>
+                <title>JUSPAY Secure Payment Method</title>
+                <order_status>pending_payment</order_status>
+            </testpayment>
+        </payment>
+    </default>
+</config>
