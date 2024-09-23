@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magecurious" class="magecurious" translate="label" sortOrder="10">
+            <label></label>
+        </tab>
+        <section id="customerdiscount" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Customer Discount</label>
+            <tab>magecurious</tab>
+            <resource>Magecurious_CustomerDiscount::customerdiscount_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Discount</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="is_again_discount_give" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Repeat Discount</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Enabled Customer get Discount on Second Order also</comment>
+                    <depends>               
+                        <field id="customerdiscount/general/enable">1</field>         
+                    </depends>
+                </field>
+                <field id="discount_title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display of Customer Discount Lables at All Locations</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

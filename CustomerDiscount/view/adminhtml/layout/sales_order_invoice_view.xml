@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="invoice_totals">
+            <block class="Magecurious\CustomerDiscount\Block\Adminhtml\Sales\Order\Invoice\Totals" name="customerdiscount" as="customerdiscount" ifconfig="customerdiscount/general/enable">
+            </block>
+        </referenceBlock>
+    </body>
+</page>

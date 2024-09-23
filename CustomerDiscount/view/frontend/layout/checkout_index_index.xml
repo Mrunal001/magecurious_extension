@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.container">
+            <referenceBlock name="minicart" remove="true" />
+        </referenceContainer>
+        <referenceBlock name="top.search" remove="true" />
+        <referenceContainer name="content">
+            <referenceBlock name="checkout.cart.methods.items" remove="true" />
+        </referenceContainer>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="totals" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="customdiscount" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magecurious_CustomerDiscount/js/view/checkout/summary/customdiscount</item>
+                                                            <item name="sortOrder" xsi:type="string">20</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="template" xsi:type="string">Magecurious_CustomerDiscount/checkout/summary/customdiscount</item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                                <item name="cart_items" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="details" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="actions" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="remove" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_Checkout/js/view/cart/item/remove</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="template" xsi:type="string">Magento_Checkout/cart/item/remove</item>
+                                                                            </item>
+                                                                            <item name="displayArea" xsi:type="string">actions</item>
+                                                                        </item>
+                                                                        <item name="update_qty" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_Checkout/js/view/cart/item/update-qty</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="template" xsi:type="string">Magento_Checkout/cart/item/update-qty</item>
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

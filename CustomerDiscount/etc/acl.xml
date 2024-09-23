@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magecurious_CustomerDiscount::customerdiscount_config" title="CustomerDiscount" sortOrder="51">
+                    <resource id="Magecurious_CustomerDiscount::post" title="Posts" sortOrder="10"/>
+                    <resource id="Magecurious_CustomerDiscount::customerdiscount_configuration" title="Configuration" sortOrder="99" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

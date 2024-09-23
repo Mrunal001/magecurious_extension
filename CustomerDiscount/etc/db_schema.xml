@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote" resource="checkout" engine="innodb" comment="Quote">
+        <column xsi:type="decimal" name="customer_discount" nullable="true" precision="12" scale="4" comment="Customer Discount"/>
+    </table>
+    <table name="quote_address" resource="checkout" engine="innodb" comment="Quote Address">
+        <column xsi:type="decimal" name="customer_discount" nullable="true" precision="12" scale="4" comment="Customer Discount"/>
+    </table>
+    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Order">
+        <column xsi:type="decimal" name="customer_discount" nullable="true" precision="12" scale="4" comment="Customer Discount"/>
+    </table>
+    <table name="sales_invoice" resource="sales" engine="innodb" comment="Sales Invoice">
+        <column xsi:type="decimal" name="customer_discount" nullable="true" precision="12" scale="4" comment="Customer Discount"/>
+    </table>
+    <table name="sales_creditmemo" resource="sales" engine="innodb" comment="Sales Creditmemo">
+        <column xsi:type="decimal" name="customer_discount" nullable="true" precision="12" scale="4" comment="Customer Discount"/>
+    </table>
+</schema>

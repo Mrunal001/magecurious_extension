@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/pdf_file.xsd">
+    <totals>
+        <total name="custome_discount">
+            <title translate="true">Customer Special Discount</title>
+            <source_field>customer_discount</source_field>
+            <model>Magecurious\CustomerDiscount\Model\Sales\Pdf\CustomerDiscount</model>
+            <font_size>7</font_size>
+            <display_zero>false</display_zero>
+            <sort_order>600</sort_order>
+        </total>
+    </totals>
+</config>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="magecurious_customerdiscount_add_discount_order_observer" instance="Magecurious\CustomerDiscount\Observer\AddDiscountToOrderObserver" />
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="magecurious_customerdiscount_quote_save_after_observer" instance="Magecurious\CustomerDiscount\Observer\QuoteSaveAfterObserver" />
+    </event>
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="magecurious_customerdiscount_order_place_after_observer" instance="Magecurious\CustomerDiscount\Observer\OrderPlaceAfterObserver" />
+    </event>
+</config>

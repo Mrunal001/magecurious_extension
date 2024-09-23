@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customerdiscount>
+            <general>
+                <enable>0</enable>
+                <is_again_discount_give>0</is_again_discount_give>
+                <discount_title>Customer Special Discoumt</discount_title>
+            </general>
+        </customerdiscount>
+    </default>
+</config>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magecurious_CustomerDiscount
+ * @package   Magecurious\CustomerDiscount
+ * @author    Magecurious <support@magecurious.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="customdiscount" instance="Magecurious\CustomerDiscount\Model\Total\Quote\CustomerDiscount" sort_order="400"/>
+        </group>
+    </section>
+
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="customdiscount" instance="Magecurious\CustomerDiscount\Model\Invoice\Total\CustomerDiscount" sort_order="400"/>
+        </group>    
+    </section>
+
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="customdiscount" instance="Magecurious\CustomerDiscount\Model\Creditmemo\Total\CustomerDiscount" sort_order="400"/>
+        </group>
+    </section>
+</config>
